@@ -17,7 +17,7 @@ abstract class BaseCrudController extends Controller
     /**
      * @return mixed
      */
-    public function index()
+    public function getAll()
     {
         return $this->model->paginate();
     }

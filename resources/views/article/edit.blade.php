@@ -2,11 +2,12 @@
 
 @section('content')
     <div>
-        <h1 class="ml-3 mt-5">Article Create</h1>
+        <h1 class="ml-3 mt-5">Article Edit</h1>
         <hr class="mb-5">
 
-        <form action="{{ route('article.store') }}" method="post" enctype="multipart/form-data" novalidate>
+        <form action="{{ route('article.update', $article) }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
+            @method ('PUT')
 
             <div class="form-group form-row">
                 <div class="col-sm-2">
@@ -14,7 +15,7 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="title" placeholder="Title" value="{{ old('title') }}"/>
+                    <input type="text" class="form-control" name="title" placeholder="Title" value="{{ $article->title }}"/>
                     @error('title')
                         <span class="text-danger">{{ $errors->first('title') }}</span>
                     @enderror
@@ -27,7 +28,7 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <textarea class="form-control" name="summary" placeholder="Summary"></textarea>
+                    <textarea class="form-control" name="summary" placeholder="Summary">{{ $article->summary }}</textarea>
                     @error('summary')
                         <span class="text-danger">{{ $errors->first('summary') }}</span>
                     @enderror
@@ -40,7 +41,7 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <textarea class="form-control" name="content" placeholder="Content"></textarea>
+                    <textarea class="form-control" name="content" placeholder="Content">{{ $article->content }}</textarea>
                     @error('content')
                         <span class="text-danger">{{ $errors->first('content') }}</span>
                     @enderror
@@ -74,7 +75,7 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <input type="file" class="form-control-file" name="image">
+                    <input type="file" class="form-control-file" name="image" value="{{ $article->image }}">
                     @error('image')
                         <span class="text-danger">{{ $errors->first('image') }}</span>
                     @enderror

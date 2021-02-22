@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Article List</h1>
+    <div>
+        <h1 class="mt-5">Article List</h1>
         <hr class="mb-5">
 
         <div class="float-right mb-5">
@@ -26,31 +26,39 @@
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>
-                        <a
-                            href="#"
-                        >
-                            1
-                        </a>
-                    </td>
-                    <td>Lorem</td>
-                    <td>Publish</td>
-                    <td>
-                        <a
-                            href="#"
-                            class="btn btn-primary btn-sm"
-                        >
-                            Edit
-                        </a>
-                        <a
-                            href="#"
-                            class="btn btn-danger btn-sm"
-                        >
-                            Delete
-                        </a>
-                    </td>
-                </tr>
+                @if (count($articles) === 0)
+                    <tr>
+                        <td scope="row" colspan="4" class="text-center">No Articles found.</td>
+                    </tr>
+                @else
+                    @foreach ($articles as $article)
+                        <tr>
+                            <th scope="row">
+                                <a
+                                    href="{{ route('article.show', $article) }}"
+                                >
+                                    {{ $article->id }}
+                                </a>
+                            </th>
+                            <td>{{ $article->title }}</td>
+                            <td>{{ $article->status }}</td>
+                            <td>
+                                <a
+                                    href="{{ route('article.edit', $article) }}"
+                                    class="btn btn-primary btn-sm"
+                                >
+                                    Edit
+                                </a>
+                                <a
+                                    href="{{ route('article.delete', $article) }}"
+                                    class="btn btn-danger btn-sm"
+                                >
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

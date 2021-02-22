@@ -5,21 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Request, Response};
+use Illuminate\View\View;
 
 /**
  * Class ArticleController
  *
  * @package App\Http\Controllers
+ *
+ * @author Ali, Muamar
  */
-class ArticleController extends BaseCrudController
+class ArticleController extends Controller
 {
     /**
      * @var ArticleService
      */
     private $articleService;
-
-    private $articleRequest;
 
     /**
      * ArticleController constructor.
@@ -29,118 +30,189 @@ class ArticleController extends BaseCrudController
      */
     public function __construct(
         Article $model,
-        ArticleService $articleService,
-        ArticleRequest $articleRequest
+        ArticleService $articleService
     )
     {
         $this->model = $model;
         $this->articleService = $articleService;
-        $this->articleRequest = $articleRequest;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        return view('article.index');
+        try {
+            return view(
+                'article.index',
+                ['articles' => $this->articleService->getAll()]
+            );
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        return view('article.create');
-        //
+        try {
+            return view('article.create');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ArticleRequest $articleRequest
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return RedirectResponse
      */
-    public function storee()
+    public function store(ArticleRequest $articleRequest): RedirectResponse
     {
-        //
+        try {
+            $this->articleService->create(
+                $articleRequest->validated()
+            );
+
+            return redirect()
+                ->route('article.index')
+                ->with('status', 'Successfully Inserted!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
+     * @param  Article  $article
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return View
      */
-    public function showw(Article $article)
+    public function show(Article $article): View
     {
-        dd('show');
-        //
+        try {
+            return view(
+                'article.show', [
+                'article' => $this->articleService->find($article->id)
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
+     * @param  Article  $article
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return View
      */
-    public function edit(Article $article)
+    public function edit(Article $article): View
     {
-        dd('edit');
-        //
+        try {
+            return view('article.edit', [
+                'article' => $this->articleService->find($article->id)
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
+     * @param  ArticleRequest  $articleRequest
+     * @param  Article  $article
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return RedirectResponse
      */
-    public function updatee(Request $request, Article $article)
+    public function update(
+        ArticleRequest $articleRequest,
+        Article $article
+    ): RedirectResponse
     {
-        dd('update');
-        //
+        try {
+            $this->articleService->update(
+                $article->id,
+                $articleRequest->validated()
+            );
+
+            return redirect()
+                ->route('article.index')
+                ->with('status', 'Successfully Updated!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete page.
+     *
+     * @param Article $article
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return View
+     */
+    public function delete(Article $article): View
+    {
+        try {
+            return view('article.delete', [
+                'article' => $this->articleService->find($article->id)
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Article  $article
-     * @return \Illuminate\Http\Response
+     * @param  Article  $article
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return RedirectResponse
      */
-    public function destroyy(Article $article)
+    public function destroy(Article $article): RedirectResponse
     {
-        dd('destroy');
-        //
-    }
+        try {
+            $this->articleService->delete($article->id);
 
-    /**
-     * @return array|mixed
-     */
-    public function inputStore()
-    {
-        return $this->articleService->create(
-            $this->articleRequest->validated()
-        );
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function inputUpdate()
-    {
-        return \request()->only([
-            'title',
-            'summary',
-            'content',
-            'status',
-            'image',
-            'slug',
-        ]);
+            return redirect()
+                ->route('article.index')
+                ->with('status', 'Successfully Deleted!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }

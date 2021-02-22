@@ -27,10 +27,11 @@ Route::middleware('auth')->prefix('articles')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');
     Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
     Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
-    Route::get('/show/{id}', [ArticleController::class, 'show'])->name('article.show');
-    Route::get('/edit/{id}', [ArticleController::class, 'edit'])->name('article.edit');
-    Route::get('/update/{id}', [ArticleController::class, 'update'])->name('article.update');
-    Route::delete('/delete/{id}', [ArticleController::class, 'delete'])->name('article.delete');
+    Route::get('/show/{article}', [ArticleController::class, 'show'])->name('article.show');
+    Route::get('/edit/{article}', [ArticleController::class, 'edit'])->name('article.edit');
+    Route::put('/update/{article}', [ArticleController::class, 'update'])->name('article.update');
+    Route::get('/delete/{article}', [ArticleController::class, 'delete'])->name('article.delete');
+    Route::get('/destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
