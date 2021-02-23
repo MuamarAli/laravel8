@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\TagController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Blog\CommentController;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +26,7 @@ Auth::routes();
 //Route::resource('articles', ArticleController::class)->middleware('auth');
 
 Route::middleware('auth')->namespace('Admin')->group(function () {
-    Route::prefix('admin/articles')->prefix('admin/articles')->group(function () {
+    Route::prefix('admin/articles')->group(function () {
         Route::get('/', [ArticleController::class, 'index'])->name('article.index');
         Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
         Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
@@ -36,8 +37,7 @@ Route::middleware('auth')->namespace('Admin')->group(function () {
         Route::get('/destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
     });
 
-
-    Route::prefix('admin/articles')->prefix('admin/tags')->group(function () {
+    Route::prefix('admin/tags')->group(function () {
         Route::get('/', [TagController::class, 'index'])->name('tag.index');
         Route::get('/create', [TagController::class, 'create'])->name('tag.create');
         Route::post('/store', [TagController::class, 'store'])->name('tag.store');
@@ -47,6 +47,19 @@ Route::middleware('auth')->namespace('Admin')->group(function () {
         Route::get('/delete/{tag}', [TagController::class, 'delete'])->name('tag.delete');
         Route::get('/destroy/{tag}', [TagController::class, 'destroy'])->name('tag.destroy');
     });
+
+    Route::prefix('admin/')->group(function () {
+        Route::get('/', [HomeController::class, 'index'])->name('admin.index');
+    });
 });
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::namespace('Blog')->group(function () {
+    Route::prefix('/blogs/comments')->group(function () {
+        Route::get('/', [CommentController::class, 'index'])->name('comment.index');
+        Route::get('/create', [CommentController::class, 'create'])->name('comment.create');
+        Route::post('/store', [CommentController::class, 'store'])->name('comment.store');
+        Route::get('/edit/{comment}', [CommentController::class, 'edit'])->name('comment.edit');
+        Route::put('/update/{comment}', [CommentController::class, 'update'])->name('comment.update');
+        Route::get('/destroy/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+    });
+});
