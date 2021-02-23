@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddArticleAuthorToUsersTable extends Migration
+class AddArticleToCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,20 @@ class AddArticleAuthorToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('articles', function (Blueprint $table) {
-            $table->unsignedBigInteger('author_id');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('article_id');
 
             $table
-                ->foreign('author_id')
+                ->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreign('article_id')
+                ->references('id')
+                ->on('articles')
                 ->cascadeOnDelete();
         });
     }
@@ -31,7 +38,7 @@ class AddArticleAuthorToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('articles', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             //
         });
     }

@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::middleware(['auth', 'verified'])->get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 //Route::resource('articles', ArticleController::class)->middleware('auth');
 
-Route::middleware('auth')->namespace('Admin')->group(function () {
+Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
     Route::prefix('admin/articles')->group(function () {
         Route::get('/', [ArticleController::class, 'index'])->name('article.index');
         Route::get('/create', [ArticleController::class, 'create'])->name('article.create');

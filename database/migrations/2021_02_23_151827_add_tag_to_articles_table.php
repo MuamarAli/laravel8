@@ -20,7 +20,7 @@ class AddTagToArticlesTable extends Migration
                 ->foreign('tag_id')
                 ->references('id')
                 ->on('tags')
-                ->onDelete('cascade');
+                ->cascadeOnDelete();
         });
     }
 
