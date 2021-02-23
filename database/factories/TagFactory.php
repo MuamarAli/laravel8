@@ -22,7 +22,10 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->name,
+            'short_description' => $this->faker->paragraphs,
+            'status' => $this->faker->boolean,
+            'slug' => $this->faker->title,
         ];
     }
 }
