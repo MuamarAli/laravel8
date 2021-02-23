@@ -51,7 +51,7 @@ class ArticleController extends Controller
         try {
             return view(
                 'admin.article.index',
-                ['articles' => $this->articleService->getAll()]
+                ['articles' => $this->articleService->getAll()->sortByDesc('created_at')]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());

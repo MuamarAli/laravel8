@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class Article extends Model
 {
-//    use HasFactory;
+    use HasFactory;
 
     /**
      * @var array
@@ -34,5 +34,21 @@ class Article extends Model
     public function getDateAttribute($value)
     {
         $this->attributes['published_at'] = Carbon::parse($value)->format('Y-m-d');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
     }
 }

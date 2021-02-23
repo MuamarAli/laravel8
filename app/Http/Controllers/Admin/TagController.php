@@ -51,7 +51,7 @@ class TagController extends Controller
         try {
             return view(
                 'admin.tag.index',
-                ['tags' => $this->tagService->getAll()]
+                ['tags' => $this->tagService->getAll()->sortByDesc('created_at')]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());
