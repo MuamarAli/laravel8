@@ -55,11 +55,11 @@
 
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox1" value="0">
+                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox1" value="0" {{ ($article->status === 0) ? 'checked' : '' }}>
                         <label class="form-check-label" for="inlineCheckbox1">Unpublish</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox2" value="1">
+                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox2" value="1" {{ ($article->status === 1) ? 'checked' : '' }}>
                         <label class="form-check-label" for="inlineCheckbox2">Publish</label>
                     </div>
                     <br>

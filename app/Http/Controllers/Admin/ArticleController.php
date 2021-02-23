@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
@@ -49,7 +50,7 @@ class ArticleController extends Controller
     {
         try {
             return view(
-                'article.index',
+                'admin.article.index',
                 ['articles' => $this->articleService->getAll()]
             );
         } catch (\Exception $e) {
@@ -68,7 +69,7 @@ class ArticleController extends Controller
     public function create(): View
     {
         try {
-            return view('article.create');
+            return view('admin.article.create');
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -113,7 +114,7 @@ class ArticleController extends Controller
     {
         try {
             return view(
-                'article.show', [
+                'admin.article.show', [
                 'article' => $this->articleService->find($article->id)
             ]);
         } catch (\Exception $e) {
@@ -134,7 +135,7 @@ class ArticleController extends Controller
     public function edit(Article $article): View
     {
         try {
-            return view('article.edit', [
+            return view('admin.article.edit', [
                 'article' => $this->articleService->find($article->id)
             ]);
         } catch (\Exception $e) {
@@ -185,7 +186,7 @@ class ArticleController extends Controller
     public function delete(Article $article): View
     {
         try {
-            return view('article.delete', [
+            return view('admin.article.delete', [
                 'article' => $this->articleService->find($article->id)
             ]);
         } catch (\Exception $e) {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +23,7 @@ Auth::routes();
 
 //Route::resource('articles', ArticleController::class)->middleware('auth');
 
-Route::middleware('auth')->prefix('articles')->group(function () {
+Route::middleware('auth')->namespace('Admin')->prefix('admin/articles')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('article.index');
     Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
     Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
