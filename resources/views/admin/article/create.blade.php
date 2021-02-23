@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.base.index')
 
 @section('content')
     <div>
@@ -23,6 +23,19 @@
 
             <div class="form-group form-row">
                 <div class="col-sm-2">
+                    <label>Publish Date:</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="published_at" placeholder="Publish date" value="{{ old('published_at') }}"/>
+                    @error('published_at')
+                        <span class="text-danger">{{ $errors->first('published_at') }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group form-row">
+                <div class="col-sm-2">
                     <label>Summary:</label>
                 </div>
 
@@ -36,7 +49,7 @@
 
             <div class="form-group form-row">
                 <div class="col-sm-2">
-                    <label>Summary:</label>
+                    <label>Content:</label>
                 </div>
 
                 <div class="col-sm-10">

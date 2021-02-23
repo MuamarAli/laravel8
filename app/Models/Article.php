@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Article extends Model
 {
@@ -19,5 +20,19 @@ class Article extends Model
         'status',
         'image',
         'slug',
+        'published_at',
     ];
+
+    protected $dates = ['published_at'];
+
+    /**
+     * Set the date attribute.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getDateAttribute($value)
+    {
+        $this->attributes['published_at'] = Carbon::parse($value)->format('Y-m-d');
+    }
 }

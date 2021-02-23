@@ -32,6 +32,7 @@ class ArticleRequest extends FormRequest
     {
         return [
             'title' => 'required|max:255',
+            'published_at' => 'required',
             'summary' => 'required|max:255',
             'content' => 'required',
             'status' => 'required',
@@ -48,6 +49,7 @@ class ArticleRequest extends FormRequest
     {
         return [
             'title.required' => 'Mandatory.',
+            'published_at.required' => 'Mandatory.',
             'summary.required'  => 'Mandatory.',
             'content.required'  => 'Mandatory.',
             'status.required'  => 'Mandatory.',
