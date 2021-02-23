@@ -35,4 +35,12 @@ class Article extends Model
     {
         $this->attributes['published_at'] = Carbon::parse($value)->format('Y-m-d');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
