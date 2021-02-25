@@ -44,6 +44,7 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
         Route::put('/update/{id}', [ArticleController::class, 'update'])->name('article.update');
         Route::get('/delete/{id}', [ArticleController::class, 'delete'])->name('article.delete');
         Route::get('/destroy/{id}', [ArticleController::class, 'destroy'])->name('article.destroy');
+        Route::get('/search/', [ArticleController::class, 'search'])->name('article.search');
     });
 
     Route::prefix('admin/tags')->group(function () {
@@ -55,6 +56,7 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
         Route::put('/update/{tag}', [TagController::class, 'update'])->name('tag.update');
         Route::get('/delete/{tag}', [TagController::class, 'delete'])->name('tag.delete');
         Route::get('/destroy/{tag}', [TagController::class, 'destroy'])->name('tag.destroy');
+        Route::get('/search/', [TagController::class, 'search'])->name('tag.search');
     });
 
     Route::prefix('admin/')->group(function () {

@@ -5,13 +5,23 @@
         <h1 class="mt-5">Tag List</h1>
         <hr class="mb-5">
 
-        <div class="float-right mb-5">
-            <a
-                href="{{ route('tag.create') }}"
-                class="btn btn-success btn-sm mr-1"
-            >
-                Add
-            </a>
+        <div class="d-flex">
+            <div class="mr-auto">
+                <form action="{{ route('tag.search') }}" method="get" class="form-inline my-2 my-lg-0">
+                    @csrf
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+            <div class="ml-auto mb-5">
+                <a
+                    href="{{ route('tag.create') }}"
+                    class="btn btn-success btn-sm mr-1"
+                >
+                    Add
+                </a>
+            </div>
         </div>
 
         <div class="table-responsive">
@@ -61,6 +71,10 @@
                 @endif
                 </tbody>
             </table>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            {!! $tags->links() !!}
         </div>
     </div>
 @endsection

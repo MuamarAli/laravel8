@@ -51,7 +51,7 @@ class TagController extends Controller
         try {
             return view(
                 'admin.tag.index',
-                ['tags' => $this->tagService->getAll()->sortByDesc('created_at')]
+                ['tags' => Tag::paginate(10)]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -212,6 +212,31 @@ class TagController extends Controller
             return redirect()
                 ->route('tag.index')
                 ->with('status', 'Successfully Deleted!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Search article.
+     *
+     * @param Request $request
+     *
+     * @author Ali, Muamar
+     *
+     * @return View
+     */
+    public function search(Request $request)
+    {
+        try {
+            $search = Tag::query()
+                ->where('name', 'like', $request->search)
+                ->paginate(10);
+
+            return view(
+                'admin.tag.index',
+                ['tags' => $search]
+            );
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
