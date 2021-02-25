@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use App\Models\Tag;
+use App\Repository\TagRepository;
 use App\Services\ArticleService;
+use App\Services\TagService;
 use Illuminate\Http\{RedirectResponse, Request, Response};
 use Illuminate\View\View;
 
@@ -24,18 +27,26 @@ class ArticleController extends Controller
     private $articleService;
 
     /**
+     * @var TagService
+     */
+    private $tagService;
+
+    /**
      * ArticleController constructor.
      *
      * @param Article $model
      * @param ArticleService $articleService
+     * @param TagService $tagService
      */
     public function __construct(
         Article $model,
-        ArticleService $articleService
+        ArticleService $articleService,
+        TagService $tagService
     )
     {
         $this->model = $model;
         $this->articleService = $articleService;
+        $this->tagService = $tagService;
     }
 
     /**
@@ -69,7 +80,10 @@ class ArticleController extends Controller
     public function create(): View
     {
         try {
-            return view('admin.article.create');
+            return view(
+                'admin.article.create',
+                ['tags' => $this->tagService->getAll()]
+            );
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -103,19 +117,19 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Article  $article
+     * @param  int  $id
      *
      * @throws \Exception
      * @author Ali, Muamar
      *
      * @return View
      */
-    public function show(Article $article): View
+    public function show(int $id): View
     {
         try {
             return view(
                 'admin.article.show', [
-                'article' => $this->articleService->find($article->id)
+                'article' => $this->articleService->find($id)
             ]);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -125,18 +139,19 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Article  $article
+     * @param  int  $id
      *
      * @throws \Exception
      * @author Ali, Muamar
      *
      * @return View
      */
-    public function edit(Article $article): View
+    public function edit(int $id): View
     {
         try {
             return view('admin.article.edit', [
-                'article' => $this->articleService->find($article->id)
+                'article' => $this->articleService->find($id),
+                'tags' => $this->tagService->getAll()
             ]);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -147,7 +162,7 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  ArticleRequest  $articleRequest
-     * @param  Article  $article
+     * @param  int  $id
      *
      * @throws \Exception
      * @author Ali, Muamar
@@ -156,15 +171,15 @@ class ArticleController extends Controller
      */
     public function update(
         ArticleRequest $articleRequest,
-        Article $article
+        int $id
     ): RedirectResponse
     {
         try {
-            $this->articleService->update(
-                $article->id,
-                $articleRequest->validated()
+            $this->articleService
+                ->setArticle($this->articleService->find($id))
+                ->update($articleRequest->validated()
             );
-
+//            die;
             return redirect()
                 ->route('article.index')
                 ->with('status', 'Successfully Updated!');
@@ -176,18 +191,18 @@ class ArticleController extends Controller
     /**
      * Delete page.
      *
-     * @param Article $article
+     * @param int $id
      *
      * @throws \Exception
      * @author Ali, Muamar
      *
      * @return View
      */
-    public function delete(Article $article): View
+    public function delete(int $id): View
     {
         try {
             return view('admin.article.delete', [
-                'article' => $this->articleService->find($article->id)
+                'article' => $this->articleService->find($id)
             ]);
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -197,17 +212,17 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Article  $article
+     * @param  int  $id
      *
      * @throws \Exception
      * @author Ali, Muamar
      *
      * @return RedirectResponse
      */
-    public function destroy(Article $article): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
         try {
-            $this->articleService->delete($article->id);
+            $this->articleService->delete($id);
 
             return redirect()
                 ->route('article.index')
