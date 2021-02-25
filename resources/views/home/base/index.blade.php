@@ -25,19 +25,15 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            height: 100vh;
         }
         .header-bg-2 {
             background-image: url('https://source.unsplash.com/1920x1024/?teams');
-            height: 100vh;
         }
         .header-bg-3 {
             background-image: url('https://source.unsplash.com/1920x1024/?nature');
-            height: 100vh;
         }
         .header-bg-4 {
             background-image: url('https://source.unsplash.com/1920x1024/?mountains');
-            height: 100vh;
         }
     </style>
 </head>
@@ -54,6 +50,8 @@
 
             @yield('content')
         </main>
+
+        @include('home.base.footer')
     </div>
 </body>
 </html>
