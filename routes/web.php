@@ -31,11 +31,11 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
         Route::get('/', [ArticleController::class, 'index'])->name('article.index');
         Route::get('/create', [ArticleController::class, 'create'])->name('article.create');
         Route::post('/store', [ArticleController::class, 'store'])->name('article.store');
-        Route::get('/show/{article}', [ArticleController::class, 'show'])->name('article.show');
-        Route::get('/edit/{article}', [ArticleController::class, 'edit'])->name('article.edit');
-        Route::put('/update/{article}', [ArticleController::class, 'update'])->name('article.update');
-        Route::get('/delete/{article}', [ArticleController::class, 'delete'])->name('article.delete');
-        Route::get('/destroy/{article}', [ArticleController::class, 'destroy'])->name('article.destroy');
+        Route::get('/show/{id}', [ArticleController::class, 'show'])->name('article.show');
+        Route::get('/edit/{id}', [ArticleController::class, 'edit'])->name('article.edit');
+        Route::put('/update/{id}', [ArticleController::class, 'update'])->name('article.update');
+        Route::get('/delete/{id}', [ArticleController::class, 'delete'])->name('article.delete');
+        Route::get('/destroy/{id}', [ArticleController::class, 'destroy'])->name('article.destroy');
     });
 
     Route::prefix('admin/tags')->group(function () {

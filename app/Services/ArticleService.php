@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Article;
 use App\Repository\ArticleRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 /**
@@ -22,6 +24,11 @@ class ArticleService
     private $articleRepository;
 
     /**
+     * @var Article
+     */
+    private $article;
+
+    /**
      * ArticleService constructor.
      *
      * @param ArticleRepository $articleRepository
@@ -31,6 +38,34 @@ class ArticleService
     public function __construct(ArticleRepository $articleRepository)
     {
         $this->articleRepository = $articleRepository;
+    }
+
+    /**
+     * Set article.
+     *
+     * @param Article $article
+     *
+     * @author Ali, Muamar
+     *
+     * @return ArticleService
+     */
+    public function setArticle(Article $article): ArticleService
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    /**
+     * Get article.
+     *
+     * @author Ali, Muamar
+     *
+     * @return Article
+     */
+    public function getArticle(): Article
+    {
+        return $this->article;
     }
 
     /**
@@ -63,8 +98,9 @@ class ArticleService
     public function create($attributes)
     {
         try {
-            $attributes['image'] = $this->upload($attributes['image']);
+            $attributes['image'] = $this->uploadImage($attributes['image']);
             $attributes['slug'] = $this->setSlug($attributes['title']);
+            $attributes['author_id'] = auth()->id();
 
             return $this->articleRepository->create($attributes);
         } catch (\Exception $e) {
@@ -75,7 +111,6 @@ class ArticleService
     /**
      * Update.
      *
-     * @param $id - id of the model.
      * @param $attributes - data's of the model.
      *
      * @throws \Exception
@@ -83,10 +118,17 @@ class ArticleService
      *
      * @return bool
      */
-    public function update($id, $attributes)
+    public function update($attributes)
     {
         try {
-            return $this->articleRepository->update($id, $attributes);
+            if (!empty($attributes['image'])) {
+                $attributes['image'] = $this->updateImage($attributes['image']);
+            }
+
+            return $this->articleRepository->update(
+                $this->article->id,
+                $attributes
+            );
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -140,13 +182,13 @@ class ArticleService
      *
      * @return string
      */
-    public function upload(UploadedFile $image): ?string
+    public function uploadImage(UploadedFile $image): ?string
     {
         try {
             $imageName = sprintf(
                 '%s-%s.%s',
                 time(),
-                pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME),
+                $this->setSlug(pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME)),
                 $image->guessExtension()
             );
 
@@ -159,18 +201,60 @@ class ArticleService
     }
 
     /**
+     * Update image.
+     *
+     * @param UploadedFile $image - image of the model.
+     *
+     * @throws \Exception
+     * @author Ali, Muamar
+     *
+     * @return string
+     */
+    public function updateImage(UploadedFile $image): ?string
+    {
+        try {
+            $this->deleteFile();
+
+            return $this->uploadImage($image);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
      * Set slug.
      *
-     * @param string $title - title of the model.
+     * @param string $value - passed value.
      *
      * @author Ali, Muamar
      *
      * @return string
      */
-    public function setSlug(string $title): ?string
+    public function setSlug(string $value): ?string
     {
         try {
-            return Str::slug($title);
+            return Str::slug($value);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Delete file.
+     *
+     * @author Ali, Muamar
+     *
+     * @return bool
+     */
+    public function deleteFile()
+    {
+        try {
+            $filePath = sprintf('%s/%s',
+                public_path('images/articles'),
+                $this->article->image
+            );
+
+            return File::delete($filePath);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

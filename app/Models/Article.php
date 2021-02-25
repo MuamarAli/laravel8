@@ -21,6 +21,8 @@ class Article extends Model
         'image',
         'slug',
         'published_at',
+        'author_id',
+        'tag_id',
     ];
 
     protected $dates = ['published_at'];

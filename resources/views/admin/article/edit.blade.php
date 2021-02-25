@@ -24,6 +24,23 @@
 
             <div class="form-group form-row">
                 <div class="col-sm-2">
+                    <label for="tagSelect">Tag</label>
+                </div>
+
+                <div class="col-sm-10">
+                    <select class="form-control" name="tag_id" id="tagSelect">
+                        @foreach($tags as $tag)
+                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('tag_id')
+                        <span class="text-danger">{{ $errors->first('tag_id') }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-group form-row">
+                <div class="col-sm-2">
                     <label>Publish Date:</label>
                 </div>
 
