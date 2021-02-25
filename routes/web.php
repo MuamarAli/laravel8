@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Blog\CommentController;
 use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,12 @@ Auth::routes(['verify' => true]);
 //Route::resource('articles', ArticleController::class)->middleware('auth');
 
 Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
+    Route::prefix('admin/users')->group(function () {
+        Route::get('/show/{id}', [UserController::class, 'show'])->name('user.show');
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/update/{id}', [UserController::class, 'update'])->name('user.update');
+    });
+
     Route::prefix('admin/articles')->group(function () {
         Route::get('/', [ArticleController::class, 'index'])->name('article.index');
         Route::get('/create', [ArticleController::class, 'create'])->name('article.create');

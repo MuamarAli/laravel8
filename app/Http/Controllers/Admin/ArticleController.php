@@ -179,7 +179,7 @@ class ArticleController extends Controller
                 ->setArticle($this->articleService->find($id))
                 ->update($articleRequest->validated()
             );
-//            die;
+
             return redirect()
                 ->route('article.index')
                 ->with('status', 'Successfully Updated!');
