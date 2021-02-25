@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Blog\CommentController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Blog\HomeController as BlogHome;
@@ -67,6 +68,10 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
 Route::namespace('Blog')->group(function () {
     Route::prefix('/')->group(function () {
         Route::get('/', [BlogHome::class, 'index'])->name('home.index');
+    });
+
+    Route::prefix('/blogs')->group(function () {
+        Route::get('/', [BlogController::class, 'index'])->name('blog.index');
     });
 
     Route::prefix('/blogs/comments')->group(function () {
