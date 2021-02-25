@@ -17,8 +17,8 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('summary');
-            $table->string('content');
-            $table->boolean('status');
+            $table->text('content');
+            $table->boolean('status')->default(0);
             $table->text('image');
             $table->string('slug');
             $table->timestamps();

@@ -32,8 +32,6 @@ class TagRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'short_description' => 'required|max:255',
-            'status' => 'required',
         ];
     }
 
@@ -46,8 +44,6 @@ class TagRequest extends FormRequest
     {
         return [
             'name.required' => 'Mandatory.',
-            'short_description.required'  => 'Mandatory.',
-            'status.required'  => 'Mandatory.',
         ];
     }
 }

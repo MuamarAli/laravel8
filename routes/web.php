@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Blog\CommentController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Blog\HomeController as BlogHome;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,10 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
 });
 
 Route::namespace('Blog')->group(function () {
+    Route::prefix('/')->group(function () {
+        Route::get('/', [BlogHome::class, 'index'])->name('home.index');
+    });
+
     Route::prefix('/blogs/comments')->group(function () {
         Route::get('/', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/create', [CommentController::class, 'create'])->name('comment.create');

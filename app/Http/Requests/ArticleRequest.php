@@ -35,7 +35,6 @@ class ArticleRequest extends FormRequest
             'published_at' => 'required',
             'summary' => 'required|max:255',
             'content' => 'required',
-            'status' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'tag_id' => 'required'
         ];
@@ -53,7 +52,6 @@ class ArticleRequest extends FormRequest
             'published_at.required' => 'Mandatory.',
             'summary.required'  => 'Mandatory.',
             'content.required'  => 'Mandatory.',
-            'status.required'  => 'Mandatory.',
             'tag_id.required'  => 'Mandatory.',
         ];
     }
