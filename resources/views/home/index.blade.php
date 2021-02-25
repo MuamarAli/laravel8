@@ -1,7 +1,7 @@
 @extends('home.base.index')
 
 @section('content')
-    <header class="header-bg">
+    <header class="header-bg d-flex justify-content-center align-items-center">
     </header>
 
     <div class="d-flex">

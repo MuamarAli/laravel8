@@ -62,7 +62,7 @@ class ArticleController extends Controller
         try {
             return view(
                 'admin.article.index',
-                ['articles' => $this->articleService->getAll()->sortByDesc('created_at')]
+                ['articles' => Article::paginate(10)]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -227,6 +227,31 @@ class ArticleController extends Controller
             return redirect()
                 ->route('article.index')
                 ->with('status', 'Successfully Deleted!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Search article.
+     *
+     * @param Request $request
+     *
+     * @author Ali, Muamar
+     *
+     * @return View
+     */
+    public function search(Request $request)
+    {
+        try {
+            $search = Article::query()
+                ->where('title', 'like', $request->search)
+                ->paginate(10);
+
+            return view(
+                'admin.article.index',
+                ['articles' => $search]
+            );
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
