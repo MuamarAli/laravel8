@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('short_description')->nullable();
-            $table->boolean('status')->default(0);
+            $table->boolean('status');
             $table->string('slug');
             $table->timestamps();
         });

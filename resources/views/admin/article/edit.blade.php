@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="col-sm-10">
-                    <textarea class="form-control" name="content" placeholder="Content">{{ $article->content }}</textarea>
+                    <textarea class="form-control wysiwyg" name="content" placeholder="Content">{{ $article->content }}</textarea>
                     @error('content')
                         <span class="text-danger">{{ $errors->first('content') }}</span>
                     @enderror

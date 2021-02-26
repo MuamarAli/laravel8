@@ -11,8 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/szychwpzvg4l1zjh0f86q1fj6ebb4qk6f8mw4nrfgs913cxx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -43,6 +44,19 @@
         $('#tagSelect').select2({
             placeholder: 'Please select tag',
             allowClear: true
+        });
+
+        tinymce.init({
+            selector: 'textarea.wysiwyg',
+            height: '360',
+            menubar:false,
+            statusbar: false,
+            plugins: "code paste",
+            toolbar: 'formatselect bold italic underline strikethrough | code undo redo',
+            resize: false,
+            branding: false,
+            relative_urls : false,
+            browser_spellcheck: true,
         });
     </script>
 </body>
