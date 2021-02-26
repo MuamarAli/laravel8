@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
-use App\Models\Tag;
-use App\Repository\TagRepository;
 use App\Services\ArticleService;
 use App\Services\TagService;
 use Illuminate\Http\{RedirectResponse, Request, Response};
@@ -52,17 +50,32 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     *
      * @throws \Exception
      * @author Ali, Muamar
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         try {
+            if (!empty($request->search)) {
+                $search = Article::query()
+                    ->where('title', 'like', $request->search)
+                    ->paginate($this->model::ARTICLE_ITEMS);
+            }
+
+            if (!empty($request->tag)) {
+                $search = Article::query()->whereHas('tags', function ($tag) use ($request) {
+                    $tag->where('name', 'like', $request->tag);
+                })
+                ->paginate($this->model::ARTICLE_ITEMS);
+            }
+
             return view(
                 'admin.article.index',
-                ['articles' => Article::paginate(10)]
+                ['articles' => !empty($search) ? $search : Article::paginate($this->model::ARTICLE_ITEMS)]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -227,31 +240,6 @@ class ArticleController extends Controller
             return redirect()
                 ->route('article.index')
                 ->with('status', 'Successfully Deleted!');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
-    }
-
-    /**
-     * Search article.
-     *
-     * @param Request $request
-     *
-     * @author Ali, Muamar
-     *
-     * @return View
-     */
-    public function search(Request $request)
-    {
-        try {
-            $search = Article::query()
-                ->where('title', 'like', $request->search)
-                ->paginate(10);
-
-            return view(
-                'admin.article.index',
-                ['articles' => $search]
-            );
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

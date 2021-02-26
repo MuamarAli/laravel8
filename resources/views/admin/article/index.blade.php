@@ -7,9 +7,10 @@
 
         <div class="d-flex">
             <div class="mr-auto">
-                <form action="{{ route('article.search') }}" method="get" class="form-inline my-2 my-lg-0">
+                <form action="{{ route('article.index') }}" method="get" class="form-inline my-2 my-lg-0">
                     @csrf
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control mr-sm-2" type="search" name="tag" placeholder="Filter by tag" aria-label="Filter by tag">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search title" aria-label="Search title">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
@@ -30,6 +31,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Title</th>
+                    <th scope="col">Tag</th>
                     <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -51,6 +53,7 @@
                                 </a>
                             </th>
                             <td>{{ $article->title }}</td>
+                            <td>{{ $article['tags']->name }}</td>
                             <td>{{ $article->status }}</td>
                             <td>
                                 <a
