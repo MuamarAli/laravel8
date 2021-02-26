@@ -28,6 +28,11 @@ class Article extends Model
     protected $dates = ['published_at'];
 
     /**
+     * Number of articles to be display.
+     */
+    const ARTICLE_ITEMS = 10;
+
+    /**
      * Set the date attribute.
      *
      * @param  string  $value
@@ -43,14 +48,14 @@ class Article extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsTo(Tag::class, 'tag_id');
     }
 }

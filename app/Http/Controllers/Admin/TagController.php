@@ -229,6 +229,10 @@ class TagController extends Controller
     public function search(Request $request)
     {
         try {
+            if (empty($request->search)) {
+                return redirect()->route('tag.index');
+            }
+
             $search = Tag::query()
                 ->where('name', 'like', $request->search)
                 ->paginate(10);
