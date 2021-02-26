@@ -98,7 +98,10 @@ class ArticleService
     public function create($attributes)
     {
         try {
-            $attributes['image'] = $this->uploadImage($attributes['image']);
+            if (!empty($attributes['image'])) {
+                $attributes['image'] = $this->uploadImage($attributes['image']);
+            }
+            $attributes['status'] = $this->isStatusCheck($attributes);
             $attributes['slug'] = $this->setSlug($attributes['title']);
             $attributes['author_id'] = auth()->id();
 
@@ -255,6 +258,24 @@ class ArticleService
             );
 
             return File::delete($filePath);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Check status.
+     *
+     * @param $attributes
+     *
+     * @author Ali, Muamar
+     *
+     * @return bool
+     */
+    public function isStatusCheck($attributes)
+    {
+        try {
+            return !empty($attributes['status']) ? true : false;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

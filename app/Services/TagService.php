@@ -63,6 +63,7 @@ class TagService
     {
         try {
             $attributes['slug'] = $this->setSlug($attributes['name']);
+            $attributes['status'] = $this->isStatusCheck($attributes);
 
             return $this->tagRepository->create($attributes);
         } catch (\Exception $e) {
@@ -141,6 +142,24 @@ class TagService
     {
         try {
             return Str::slug($title);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    /**
+     * Check status.
+     *
+     * @param $attributes
+     *
+     * @author Ali, Muamar
+     *
+     * @return bool
+     */
+    public function isStatusCheck($attributes)
+    {
+        try {
+            return !empty($attributes['status']) ? true : false;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
