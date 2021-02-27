@@ -280,4 +280,26 @@ class ArticleService
             dd($e->getMessage());
         }
     }
+
+    /**
+     * Get searched article
+     *
+     * @param string $articleName | Text in search article name field.
+     * @param string $tagName | Text in search tag field.
+     * @author Soliven, Richard
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|null
+     */
+    public function getSearchArticle(?string $articleName, ?string $tagName)
+    {
+        try {
+            if (!empty($articleName || $tagName)) {
+                $articles = $this->articleRepository->getSearchArticle($articleName, $tagName);
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        return empty($articles) ? null : $articles;
+    }
 }

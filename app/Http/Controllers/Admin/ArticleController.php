@@ -30,6 +30,11 @@ class ArticleController extends Controller
     private $tagService;
 
     /**
+     * @var Article
+     */
+    private $model;
+
+    /**
      * ArticleController constructor.
      *
      * @param Article $model
@@ -60,22 +65,16 @@ class ArticleController extends Controller
     public function index(Request $request): View
     {
         try {
-            if (!empty($request->search)) {
-                $search = Article::query()
-                    ->where('title', 'like', $request->search)
-                    ->paginate($this->model::ARTICLE_ITEMS);
-            }
+            $search = $this->articleService->getSearchArticle($request->search, $request->tag);
 
-            if (!empty($request->tag)) {
-                $search = Article::query()->whereHas('tags', function ($tag) use ($request) {
-                    $tag->where('name', 'like', $request->tag);
-                })
-                ->paginate($this->model::ARTICLE_ITEMS);
-            }
-
+            dump(get_class($search));die();
             return view(
                 'admin.article.index',
-                ['articles' => !empty($search) ? $search : Article::paginate($this->model::ARTICLE_ITEMS)]
+                ['articles' =>
+                    !empty($search) ?
+                        $search->paginate($this->model::ARTICLE_ITEMS) :
+                        Article::paginate($this->model::ARTICLE_ITEMS)
+                ]
             );
         } catch (\Exception $e) {
             dd($e->getMessage());

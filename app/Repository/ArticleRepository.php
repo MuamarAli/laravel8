@@ -98,4 +98,30 @@ class ArticleRepository implements RepositoryInterface
     {
         return $this->article->findOrFail($id)->delete();
     }
+
+    /**
+     * Get searched article
+     *
+     * @param string $articleName | Text in search article name field.
+     * @param string $tagName | Text in search tag field.
+     *
+     * @author Soliven, Richard
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function getSearchArticle(?string $articleName, ?string $tagName)
+    {
+        $query = Article::query();
+        if (!empty($articleName)) {
+            $query
+                ->where('title', 'like', "%{$articleName}%");
+        }
+        if (!empty($tagName)) {
+            $query->whereHas('tags', function ($tag) use ($tagName) {
+                $tag->where('name', 'like', "%{$tagName}%");
+            });
+        }
+
+        return $query;
+    }
 }
