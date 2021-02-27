@@ -67,7 +67,6 @@ class ArticleController extends Controller
         try {
             $search = $this->articleService->getSearchArticle($request->search, $request->tag);
 
-            dump(get_class($search));die();
             return view(
                 'admin.article.index',
                 ['articles' =>
