@@ -35,7 +35,7 @@ class ArticleRequest extends FormRequest
             'published_at' => 'required',
             'summary' => 'required|max:255',
             'content' => 'required',
-            'image' => $this->id == null ? 'required|image|mimes:jpeg,png,jpg|max:2048' : '',
+            'image' => $this->id == null ? 'required|image|mimes:jpeg,png,jpg|max:2048' : 'image|mimes:jpeg,png,jpg|max:2048',
             'status' => '',
             'tag_id' => 'required'
         ];
