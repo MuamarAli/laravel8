@@ -234,7 +234,7 @@ class TagController extends Controller
             }
 
             $search = Tag::query()
-                ->where('name', 'like', '%' . $request->search . '%')
+                ->where('name', 'like', $request->search)
                 ->paginate(10);
 
             return view(

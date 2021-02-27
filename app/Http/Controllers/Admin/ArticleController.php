@@ -62,7 +62,7 @@ class ArticleController extends Controller
         try {
             if (!empty($request->search)) {
                 $search = Article::query()
-                    ->where('title', 'like', '%' . $request->search . '%')
+                    ->where('title', 'like', $request->search)
                     ->paginate($this->model::ARTICLE_ITEMS);
             }
 
