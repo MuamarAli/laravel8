@@ -10,7 +10,7 @@
                 <form action="{{ route('article.index') }}" method="get" class="form-inline my-2 my-lg-0">
                     @csrf
                     <input class="form-control mr-sm-2" type="search" name="tag" placeholder="Filter by tag" aria-label="Filter by tag">
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search title" aria-label="Search title">
+                    <input class="form-control mr-sm-2" type="search" name="article" placeholder="Search title" aria-label="Search title">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
@@ -40,7 +40,7 @@
                 <tbody>
                 @if (count($articles) === 0)
                     <tr>
-                        <td scope="row" colspan="4" class="text-center">No Articles found.</td>
+                        <td scope="row" colspan="5" class="text-center">No Articles found.</td>
                     </tr>
                 @else
                     @foreach ($articles as $article)

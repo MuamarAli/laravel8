@@ -95,21 +95,19 @@ class ArticleService
      *
      * @return mixed
      */
-    public function create($attributes)
+    public function create(array $attributes)
     {
         try {
             if (!empty($attributes['image'])) {
                 $attributes['image'] = $this->uploadImage($attributes['image']);
             }
-            $attributes['status'] = $this->isStatusCheck($attributes);
-            $attributes['slug'] = $this->setSlug($attributes['title']);
-            $attributes['author_id'] = auth()->id();
 
             return $this->articleRepository->create($attributes);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
+
 
     /**
      * Update.
@@ -121,7 +119,7 @@ class ArticleService
      *
      * @return bool
      */
-    public function update($attributes)
+    public function update(array $attributes)
     {
         try {
             if (!empty($attributes['image'])) {
@@ -275,9 +273,31 @@ class ArticleService
     public function isStatusCheck($attributes)
     {
         try {
-            return !empty($attributes['status']) ? true : false;
+            return !empty($attributes) ? true : false;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+    /**
+     * Get searched article
+     *
+     * @param string $articleName | Text in search article name field.
+     * @param string $tagName | Text in search tag field.
+     * @author Soliven, Richard
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|null
+     */
+    public function getSearchArticle(?string $articleName, ?string $tagName)
+    {
+        try {
+            if (!empty($articleName || $tagName)) {
+                $articles = $this->articleRepository->getSearchArticle($articleName, $tagName);
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+
+        return empty($articles) ? null : $articles;
     }
 }
