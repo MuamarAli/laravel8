@@ -25,8 +25,8 @@ class ArticleFactory extends Factory
     {
         return [
             'title' => $this->faker->name,
-            'summary' => $this->faker->paragraphs,
-            'content' => $this->faker->paragraphs,
+            'summary' => $this->faker->sentence,
+            'content' => $this->faker->paragraph,
             'status' => $this->faker->boolean,
             'image' => $this->faker->image(),
             'slug' => $this->faker->title,

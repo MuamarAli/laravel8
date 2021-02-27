@@ -41,9 +41,29 @@
     <script>
         @yield('javascript')
 
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
         $('#tagSelect').select2({
             placeholder: 'Please select tag',
-            allowClear: true
+            allowClear: true,
+            ajax: {
+                url: "{{ route('tag.select2') }}",
+                type: "get",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        _token: CSRF_TOKEN,
+                        search: params.term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
         });
 
         tinymce.init({

@@ -245,4 +245,48 @@ class TagController extends Controller
             dd($e->getMessage());
         }
     }
+
+    /**
+     * Paginate the data in select2.
+     *
+     * @param Request $request
+     *
+     * @author Ali, Muamar
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function select2Paginate(Request $request)
+    {
+        try {
+            if ($request->ajax()) {
+                $search = $request->search;
+
+                if (empty($search)){
+                    $tags = Tag::orderby('name','asc')
+                        ->select('id','name')
+                        ->limit(10)
+                        ->get();
+                } else {
+                    $tags = Tag::orderby('name','asc')
+                        ->select('id','name')
+                        ->where('name', 'like', '%' . $search . '%')
+                        ->limit(10)
+                        ->get();
+                }
+
+                $response = [];
+
+                foreach ($tags as $tag){
+                    $response[] = [
+                        'id' => $tag->id,
+                        'text' => $tag->name
+                    ];
+                }
+
+                return json_encode($response);
+            }
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
 }

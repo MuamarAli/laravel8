@@ -23,7 +23,7 @@ class TagFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'short_description' => $this->faker->paragraphs,
+            'short_description' => $this->faker->sentence,
             'status' => $this->faker->boolean,
             'slug' => $this->faker->title,
         ];
