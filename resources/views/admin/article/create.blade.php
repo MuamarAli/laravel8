@@ -89,11 +89,11 @@
 
                 <div class="col-sm-10">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox1" value="0">
+                        <input class="form-check-input" type="radio" name="status" id="inlineCheckbox1" value="0">
                         <label class="form-check-label" for="inlineCheckbox1">Unpublish</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="status" id="inlineCheckbox2" value="1">
+                        <input class="form-check-input" type="radio" name="status" id="inlineCheckbox2" value="1">
                         <label class="form-check-label" for="inlineCheckbox2">Publish</label>
                     </div>
                     <br>
@@ -101,6 +101,7 @@
                         <span class="text-danger">{{ $errors->first('status') }}</span>
                     @enderror
                 </div>
+
             </div>
 
             <div class="form-group form-row">

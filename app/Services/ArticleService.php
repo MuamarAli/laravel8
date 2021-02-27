@@ -101,15 +101,13 @@ class ArticleService
             if (!empty($attributes['image'])) {
                 $attributes['image'] = $this->uploadImage($attributes['image']);
             }
-            $attributes['status'] = $this->isStatusCheck($attributes);
-            $attributes['slug'] = $this->setSlug($attributes['title']);
-            $attributes['author_id'] = auth()->id();
 
             return $this->articleRepository->create($attributes);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
     }
+
 
     /**
      * Update.
@@ -275,7 +273,7 @@ class ArticleService
     public function isStatusCheck($attributes)
     {
         try {
-            return !empty($attributes['status']) ? true : false;
+            return !empty($attributes) ? true : false;
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

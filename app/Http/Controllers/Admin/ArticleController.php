@@ -65,14 +65,16 @@ class ArticleController extends Controller
     public function index(Request $request): View
     {
         try {
-            $search = $this->articleService->getSearchArticle($request->search, $request->tag);
+            $search = $this->articleService->getSearchArticle($request->article, $request->tag);
 
             return view(
                 'admin.article.index',
-                ['articles' =>
+                [
+                    'articles' =>
                     !empty($search) ?
                         $search->paginate($this->model::ARTICLE_ITEMS) :
-                        Article::paginate($this->model::ARTICLE_ITEMS)
+                        Article::paginate($this->model::ARTICLE_ITEMS),
+                    'tags' => $this->tagService->getAll()
                 ]
             );
         } catch (\Exception $e) {
