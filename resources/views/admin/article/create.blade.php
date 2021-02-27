@@ -29,7 +29,12 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="tag_id" id="tagSelect">
                         @foreach($tags as $tag)
-                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                            <option
+                                value="{{ $tag->id }}"
+                                {{ old('tag_id') == $tag->id ? 'selected' : ''}}
+                            >
+                                {{ $tag->name }}
+                            </option>
                         @endforeach
                     </select>
                     @error('tag_id')
