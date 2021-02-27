@@ -48,7 +48,7 @@
             allowClear: true,
             ajax: {
                 url: "{{ route('tag.select2') }}",
-                type: "post",
+                type: "get",
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {

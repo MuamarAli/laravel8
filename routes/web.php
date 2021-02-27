@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->namespace('Admin')->group(function () {
         Route::get('/delete/{tag}', [TagController::class, 'delete'])->name('tag.delete');
         Route::get('/destroy/{tag}', [TagController::class, 'destroy'])->name('tag.destroy');
         Route::get('/search/', [TagController::class, 'search'])->name('tag.search');
-        Route::post('/select2/', [TagController::class, 'select2Paginate'])->name('tag.select2');
+        Route::get('/select2/', [TagController::class, 'select2Paginate'])->name('tag.select2');
     });
 
     Route::prefix('admin/')->group(function () {
