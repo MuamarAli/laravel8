@@ -36,50 +36,18 @@ class ArticleObserver
             ->setAttribute('status', $this->articleService->isStatusCheck($article->getAttribute('status')))
             ->setAttribute('slug', $this->articleService->setSlug($article->getAttribute('title')))
             ->setAttribute('author_id', auth()->id());
-        //
     }
 
     /**
-     * Handle the Article "updated" event.
+     * Handle the Article "updating" event.
      *
      * @param  \App\Models\Article  $article
      * @return void
      */
-    public function updated(Article $article)
+    public function updating(Article $article)
     {
-        //
-    }
-
-    /**
-     * Handle the Article "deleted" event.
-     *
-     * @param  \App\Models\Article  $article
-     * @return void
-     */
-    public function deleted(Article $article)
-    {
-        //
-    }
-
-    /**
-     * Handle the Article "restored" event.
-     *
-     * @param  \App\Models\Article  $article
-     * @return void
-     */
-    public function restored(Article $article)
-    {
-        //
-    }
-
-    /**
-     * Handle the Article "force deleted" event.
-     *
-     * @param  \App\Models\Article  $article
-     * @return void
-     */
-    public function forceDeleted(Article $article)
-    {
-        //
+        $article
+            ->setAttribute('status', $this->articleService->isStatusCheck($article->getAttribute('status')))
+            ->setAttribute('slug', $this->articleService->setSlug($article->getAttribute('title')));
     }
 }

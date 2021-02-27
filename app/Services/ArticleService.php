@@ -95,7 +95,7 @@ class ArticleService
      *
      * @return mixed
      */
-    public function create($attributes)
+    public function create(array $attributes)
     {
         try {
             if (!empty($attributes['image'])) {
@@ -119,7 +119,7 @@ class ArticleService
      *
      * @return bool
      */
-    public function update($attributes)
+    public function update(array $attributes)
     {
         try {
             if (!empty($attributes['image'])) {
