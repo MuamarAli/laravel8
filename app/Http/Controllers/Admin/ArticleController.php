@@ -68,7 +68,7 @@ class ArticleController extends Controller
 
             if (!empty($request->tag)) {
                 $search = Article::query()->whereHas('tags', function ($tag) use ($request) {
-                    $tag->where('name', 'like', '%' . $request->tag . '%');
+                    $tag->where('name', 'like', $request->tag);
                 })
                 ->paginate($this->model::ARTICLE_ITEMS);
             }
